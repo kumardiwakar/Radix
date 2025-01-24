@@ -1,0 +1,40 @@
+
+body {
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: #fff;
+    min-height: 100vh;
+}
+.half1, .half2 {
+    padding: 50px 20px;
+}
+.login {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+.carousel-item {
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .half1, .half2 {
+        padding: 20px;
+    }
+    .typewriter {
+        font-size: 1rem;
+        white-space: normal;
+        border-right: none;
+    }
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+@media (max-width: 576px) {
+    .typewriter {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+    h1 {
+        font-size: 1.2rem;
+    }
+}

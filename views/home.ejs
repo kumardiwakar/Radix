@@ -1,0 +1,88 @@
+
+<% layout('./Layout/navebar') -%>
+<body>
+
+    <link rel="stylesheet" href="home.css">
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 half1 d-flex flex-column justify-content-center align-items-center">
+                <h1 class="mb-4 text-center" style="color: cornsilk;">
+                    Welcome to the RaidX!
+                </h1>
+                <p class="typewriter text-center" style="color: aqua; font-size: 1.5rem;">
+                    Play Bold, Dream Big – Kabaddi’s Time is Now!
+                </p>
+
+               <%if(!currentUser){%>
+                <div class="login mt-5 shadow-lg">
+                    <form method="POST" action="/login">
+                        <div class="form-group mb-3">
+                            <label for="username">Username</label>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username" 
+                                class="form-control" 
+                                placeholder="Enter username" 
+                                required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password">Password</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="form-control" 
+                                placeholder="Enter password" 
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Log in</button>
+                    </form>
+                    <hr>
+                    <a class="btn btn-success w-100" href="/signup">Sign up</a>
+                </div>
+               <%}%>
+                
+            </div>
+
+            <div class="col-md-6 half2">
+                <!-- Review Carousel -->
+                <div id="reviewCarousel" class="carousel slide py-4" data-bs-ride="carousel">
+                    <div class="container">
+                        <h2 class="text-center text-light mb-4">What Our Users Say</h2>
+                        <div class="carousel-inner">
+                            <% let isActive = true; %>
+                            <% for (review of allReview) { %>
+                                <div class="carousel-item <%= isActive ? 'active' : '' %>">
+                                    <div class="card mx-auto shadow-lg"
+                                         style="max-width: 24rem; border-radius: 15px; background-color: rgba(255, 255, 255, 0.9);">
+                                        <div class="card-body">
+                                            <img src="<%= review.reviewer.profile.url %>" alt="<%= review.reviewer.fullName.charAt(0) %>'s Profile Picture" style="width:60px; height:60px; border-radius: 50%;">
+                                            <h5 class="card-title"><%= review.reviewer.fullName %></h5>
+                                            <p class="card-text"><%= review.review %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% isActive = false; %>
+                            <% } %>
+                        </div>
+
+                        <!-- Carousel Controls -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+

@@ -1,0 +1,43 @@
+<% layout('./Layout/navebar') -%>
+<body class="bg-light py-5">
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">Tournament Edit</h4>
+            </div>
+            <div class="card-body">
+                <form class="row g-4" method="POST" action="/tournament/<%=tournament._id%>/edit?_method=PATCH">
+                    <!-- Tournament Name -->
+                    <div class="col-md-6">
+                        <label for="Tournament" class="form-label">Tournament Name</label>
+                        <input type="text" class="form-control" id="Tournament" name="tournamentName" value="<%= tournament. tournamentName%>" required>
+                    </div>
+                    <!-- Location -->
+                    <div class="col-md-6">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" name="location" value="<%=tournament.location%>" required>
+                    </div>
+                    <!-- Description -->
+                    <div class="col-12">
+                        <label for="description" class="form-label">Tournament Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4"  required><%=tournament.description%></textarea>
+                    </div>
+                    <!-- Start Date -->
+                    <div class="col-md-6">
+                        <label for="startDate" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="startDate" name="startDate" >
+                    </div>
+                    <!-- End Date -->
+                    <div class="col-md-6">
+                        <label for="endDate" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="endDate" name="endDate" >
+                    </div>
+                    <!-- Submit Button -->
+                    <div class="col-12 d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,162 @@
+<% layout('./Layout/navebar') -%>
+<style>
+.head {
+    background-image: url('https://www.shutterstock.com/image-vector/premium-editable-vector-file-kabaddi-260nw-2286738699.jpg');
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-size: 100% 100%; /* Stretches the image to fill both dimensions */
+    background-position: center; /* Centers the image */
+    padding-bottom: 30px;
+    border-radius: 30px;
+}
+        .card:hover {
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+          transform: scale(1.05);
+        }
+      </style>
+<body class="p-3 m-0 border-0" style="margin-top: 2% !important; padding-top: 3% !important;">
+    <div class="container">
+       <div class="head">
+        <h1 class="text-center text-primary mb-4"><%= tournament.tournamentName %></h1>
+        <p class="text-muted text-center" >
+            <i style="color: rgb(165, 42, 42); font-weight: bold; font-size: larger;"><%= tournament.location %></i>
+        </p>
+        <p class="text-center" style="color: brown; font-weight: bold; font-size: larger;">
+            <strong ><%=`${ new Date(tournament.startDate).getDate()}/${new Date(tournament.startDate).getMonth()+1}/${new Date(tournament.startDate).getFullYear()} `%> - <%=`${ new Date(tournament.endDate).getDate()}/${new Date(tournament.endDate).getMonth()+1}/${new Date(tournament.endDate).getFullYear()} `%>
+        </p>
+        
+        <% if (userId && String(userId) === String(tournament.organiserId._id)) { %>
+            <div class="text-center mb-4">
+
+                <%if( new Date(tournament.endDate)>=new Date()){%>
+                <a href="/team/<%= tournament._id %>/add" class="btn btn-primary">Add Team</a>
+                <%}%>
+                <%if(new Date(tournament.startDate)<=new Date() && new Date(tournament.endDate)>=new Date()){%>
+                    <a href="/match/<%=tournament._id%>" class="btn btn-primary">New Match</a>
+                <%}%>
+                
+            </div>
+        <% } %>
+       </div>
+        
+        <hr>
+        
+            <h4>Teams</h4>
+        <div class="row g-4">
+            <% for (team of tournament.team) { %>
+                <div class="col-md-4">
+                    <div class="card shadow-lg">
+                        <div class="card-body">
+                            <h5 class="card-title text-center text-primary"><%= team.teamName %></h5>
+                            <h6 class="card-subtitle mb-2 text-muted text-center">
+                                <strong>Captain:</strong> <%= team.captainId.fullName %>
+                            </h6>
+                            <% if (userId && String(userId) === String(tournament.organiserId._id)) { %>
+                                <p><strong>Mobile No:</strong> <%= team.captainId.phoneNumber %></p>
+                                <p><strong>No. of Players:</strong> <%= team.players.length %></p>
+                                <% if ( new Date()<=new Date(tournament.endDate) && team.players.length < 12) { %>
+
+                                    <div class="dropdown d-grid gap-2 mb-3">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                                          Add Player
+                                        </button>
+                                        <form class="dropdown-menu p-4" method="POST" action="/tournament/<%= tournament._id %>/team/<%= team._id %>/player/add" >
+                                          <div class="mb-3">
+                                            <input type="text" class="form-control"  placeholder="Player's username" name="userName" >
+                                          </div>
+                                          <button type="submit" class="btn btn-primary">Add</button>
+                                        </form>
+                                      </div>
+
+                                <% } %>
+                            <% } %>
+                            <div class="d-grid gap-2">
+                                <a href="/team/<%= team._id %>/detail" class="btn btn-success">Team Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <hr>
+
+        <div class="row gy-3">
+            <h1>Live Matches</h1>
+           <%if(tournament.match.length>0){%>
+            <% for (match of tournament.match) { %>
+                <%if(match.winner==='Panding'){%>
+                    <div class="col-md-6 col-lg-4">
+                        <a href="/match/<%= match._id %>/detail/live" class="card border-0 shadow-sm text-decoration-none bg-white">
+                            <div class="card-body p-3">
+                                <!-- Tournament Name -->
+                                <h5 class="card-title text-primary mb-2"><%= tournament.tournamentName %></h5>
+                                <hr class="my-2">
+                                <!-- Location and Match Type -->
+                                <p class="text-muted mb-1"><i class="bi bi-geo-alt"></i> <%= tournament.location %> , <%=` ${new Date(match.createdAt).getDate()}-${new Date(match.createdAt).getMonth()+1}-${new Date(match.createdAt).getFullYear()} `%></p>
+                                <p class="fw-bold text-center mb-3"><%= match.matchType %></p>
+                                <!-- Teams and Points -->
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-bold"><%= match.teamA.teamName %></span>
+                                    <span class="badge bg-secondary px-3 py-1"><%= match.totalPointA %></span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold"><%= match.teamB.teamName %></span>
+                                    <span class="badge bg-secondary px-3 py-1"><%= match.totalPointB %></span>
+                                </div>
+                                <hr class="my-2">
+                                <!-- Match Status -->
+                                <p class="text-center fw-bold text-success mb-0"><%= match.winner %></p>
+                            </div>
+                            <!-- Live Badge -->
+                            <div class="position-absolute top-0 end-0 m-2">
+                                <span class="badge bg-danger">Live</span>
+                            </div>
+                        </a>
+                    </div>
+            <% } %>
+        <%}%>
+           <%}%>
+       
+    </div>
+
+        <hr>
+        <div class="row gy-3">
+            <h1>Past Matches</h1>
+            <%if(tournament.match){%>
+                <% for (match of tournament.match) { %>
+                    <%if(match.winner!=='Panding'){%>
+                        <div class="col-md-6 col-lg-4">
+                            <a href="/match/<%= match._id %>/detail/live" class="card border-0 shadow-sm text-decoration-none bg-white">
+                                <div class="card-body p-3">
+                                    <!-- Tournament Name -->
+                                    <h5 class="card-title text-primary mb-2"><%= tournament.tournamentName %></h5>
+                                    <hr class="my-2">
+                                    <!-- Location and Match Type -->
+                                    <p class="text-muted mb-1"><i class="bi bi-geo-alt"></i> <%= tournament.location %> , <%=` ${new Date(match.createdAt).getDate()}-${new Date(match.createdAt).getMonth()+1}-${new Date(match.createdAt).getFullYear()} `%></p>
+                                    <p class="fw-bold text-center mb-3"><%= match.matchType %></p>
+                                    <!-- Teams and Points -->
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="fw-bold"><%= match.teamA.teamName %></span>
+                                        <span class="badge bg-secondary px-3 py-1"><%= match.totalPointA %></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold"><%= match.teamB.teamName %></span>
+                                        <span class="badge bg-secondary px-3 py-1"><%= match.totalPointB %></span>
+                                    </div>
+                                    <hr class="my-2">
+                                    <!-- Match Status -->
+                                    <p class="text-center fw-bold text-success mb-0"><%= match.winner %></p>
+                                </div>
+                                <!-- Live Badge -->
+                                <div class="position-absolute top-0 end-0 m-2">
+                                    <span class="badge bg-success">Past</span>
+                                </div>
+                            </a>
+                        </div>
+                <% } %>
+            <%}%>
+            <%}%>
+       
+    </div>
+
+    </div>
+</body>

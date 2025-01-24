@@ -1,0 +1,14 @@
+<% layout('./Layout/navebar') -%>
+<body class="p-3 m-0 border-0 bd-example m-0 border-0 " style="margin-top: 2% !important; padding-top: 3% !important; ">
+    <form method="post" action="/team/<%=id%>/add">
+        <div class="mb-3">
+          <label for="teamName" class="form-label">Team Name</label>
+          <input type="text" class="form-control" id="teamName" aria-describedby="emailHelp" name="teamName" required>
+        </div>
+        <div class="mb-3">
+        <label for="captainUsername" class="form-label">Capatin username</label>
+        <input type="text" class="form-control" id="captainUsername" aria-describedby="emailHelp" name="captainUsername" required>
+      </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+</body>

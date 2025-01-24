@@ -1,0 +1,99 @@
+<% layout('./Layout/navebar') -%>
+<body class="bg-light py-5">
+    <style>
+        .card:hover {
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+          transform: scale(1.05);
+        }
+      </style>
+    <div class="container">
+        <div class="row gy-3">
+            <h1 class="text-center mb-4">My Matches</h1>
+            <%if(userMatches){%>
+                <% for (match of userMatches.matchPlayedId) { %>
+                    <div class="col-md-6 col-lg-4">
+                        <a href="/match/<%= match._id %>/detail/live" class="card border-0 shadow-sm text-decoration-none bg-white">
+                            <div class="card-body p-3">
+                                <!-- Tournament Name -->
+                                <h5 class="card-title text-primary mb-2"><%= match.tournamentId.tournamentName %></h5>
+                                <hr class="my-2">
+                                <!-- Location and Match Type -->
+                                <p class="text-muted mb-1"><i class="bi bi-geo-alt"></i> <%= match.tournamentId.location %></p>
+                                <p class="fw-bold text-center mb-3"><%= match.matchType %></p>
+                                <!-- Teams and Points -->
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="fw-bold"><%= match.teamA.teamName %></span>
+                                    <span class="badge bg-secondary px-3 py-1"><%= match.totalPointA %></span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold"><%= match.teamB.teamName %></span>
+                                    <span class="badge bg-secondary px-3 py-1"><%= match.totalPointB %></span>
+                                </div>
+                                <hr class="my-2">
+                                <!-- Match Status -->
+                                <p class="text-center fw-bold text-success mb-0"><%= match.winner %></p>
+                            </div>
+                            <!-- Live Badge -->
+                            
+                            <%if(match.winner==="Panding"){%>
+                                <div class="position-absolute top-0 end-0 m-2">
+                                    <span class="badge bg-danger">Live</span>
+                                </div>
+                            <%}else{%>
+                                <div class="position-absolute top-0 end-0 m-2">
+                                    <span class="badge bg-success">Past</span>
+                                </div>
+                            <%}%>
+                        </a>
+                    </div>
+                <% } %>
+            <%}%>
+               
+        </div>
+
+        <h1 class="text-center mb-4">Series and Tournaments</h1>
+    
+        
+          <div class="row g-4">
+            <% for (tournament of userMatches.TournamentId) { %>
+                
+                <%if(String(tournament.organiserId)===String(currentUser._id)){%>
+                    <div class="col-md-4">
+                        <!-- Tournament Card -->
+                        <div class="card shadow-sm h-100">
+                          <div class="card-body">
+                            <!-- Tournament Name -->
+                            <h5 class="card-title text-primary"><%= tournament.tournamentName %></h5>
+                            <!-- Description -->
+                            <p class="card-text text-muted"><%= tournament.description %></p>
+                            <!-- Location -->
+                            <p><b>Location:</b> <%= tournament.location %></p>
+                            <!-- Start Date -->
+                            <p><b>Start Date:</b> <%=`${ new Date(tournament.startDate).getDate()}/${new Date(tournament.startDate).getMonth()+1}/${new Date(tournament.startDate).getFullYear()} (${String( Date(tournament.startDate)).substring(0,3)})`%></p>
+                            <!-- End Date -->
+                          <p><b>End Date:</b> <%=`${ new Date(tournament.endDate).getDate()}/${new Date(tournament.endDate).getMonth()+1}/${new Date(tournament.endDate).getFullYear()} (${String( Date(tournament.endDate)).substring(0,3)})`%></p></p>
+                          
+                        <%if(new Date(tournament.endDate).getFullYear() >= new Date().getFullYear() && 
+                        new Date(tournament.endDate).getMonth() >= new Date().getMonth() && 
+                        new Date(tournament.endDate).getDate() >= new Date().getDate()  &&
+                        new Date(tournament.startDate).getDate() <= new Date().getDate()
+                        ){%>
+                            <div class="position-absolute top-0 end-0 m-2">
+                            <span class="badge bg-danger">Live</span>
+                        </div>
+                            <%}%>
+                            <!-- View Button -->
+                            <a href="/tournament/<%= tournament._id %>/detail/view" class="btn btn-primary">View Details</a>
+                          </div>
+                        </div>
+                        
+                      </div>
+               <% }%>
+              
+               
+        
+    
+            <% } %>
+          </div>
+    </div>
+</body>

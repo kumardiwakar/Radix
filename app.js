@@ -35,6 +35,7 @@ app.use(session({
   saveUninitialized: true,
   store: MongoStore.create({
     mongoUrl: dbUrl,
+    // mongoUrl:'mongodb://127.0.0.1:27017/Kabaddi',
     collectionName: 'sessions'
   }),
   cookie: {
@@ -75,7 +76,7 @@ main().catch(err => console.log(err));
 
 async function main() {
   // await mongoose.connect('mongodb://127.0.0.1:27017/Kabaddi');
-   await mongoose.connect(dbUrl);
+    await mongoose.connect(dbUrl);
   
 }
 app.listen(8080, () => {

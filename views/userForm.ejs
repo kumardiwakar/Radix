@@ -1,133 +1,133 @@
 <% layout('./Layout/navebar') -%>
-<body class="p-3 m-0 border-0 bd-example m-0 border-0" style="margin-top: 2% !important; padding-top: 3% !important;">
+<body class="container-fluid">
   <!-- Example Code -->
-  <form class="row g-3" method="POST" action="/signup" enctype="multipart/form-data">
-    <div class="col-md-6">
-      <label for="inputCity" class="form-label">Full Name</label>
-      <input type="text" class="form-control" id="inputCity" name="fullName" required />
-    </div>
-    <div class="col-md-6">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" class="form-control" id="username" name="username" required />
-    </div>
-    <div class="col-md-6">
-      <label for="inputEmail4" class="form-label">Email</label>
-      <input type="email" class="form-control" id="inputEmail4" name="email" required />
-    </div>
-    <div class="col-md-6">
-      <label for="inputPassword4" class="form-label">Phone Number</label>
-      <input
-        type="tel"
-        class="form-control"
-        id="inputPassword4"
-        name="phoneNumber"
-        pattern="\d{10}"
-        required
-      />
-    </div>
-
-    <div class="col-md-6">
-      <label for="inputCity" class="form-label">Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="inputCity"
-        name="password"
-        required
-      />
-    </div>
-
-    <div class="col-md-6">
-      <label for="inputCity" class="form-label">Confirm Password</label>
-      <input
-        type="password"
-        class="form-control"
-        id="inputCity"
-        name="conformpassword"
-        required
-      />
-    </div>
-
-    <div class="col-md-6">
-      <label for="inlineFormSelectPref">Preferred Position</label>
-      <select class="form-select" id="inlineFormSelectPref" name="prefferedPosition" required>
-        <option selected>Raider</option>
-        <option value="Defender">Defender</option>
-        <option value="All-Rounder">All-Rounder</option>
-      </select>
-    </div>
-
-    <div class="col-md-6">
-      <label for="inlineFormSelectPref">Gender</label>
-      <select class="form-select" id="inlineFormSelectPref" name="gender" required>
-        <option selected>Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
-
-    <!-- Profile Image with Validation -->
-    <div class="col-md-6">
-      <label for="formFileMultiple" class="form-label">Profile Image</label>
-      <input
-        class="form-control"
-        type="file"
-        id="formFileMultiple"
-        name="profileImage"
-        onchange="validateFileSize(this)"
-      />
-      <div id="fileError" class="text-danger mt-1" style="display: none;">File size exceeds 2MB. Please upload a smaller file.</div>
-    </div>
-
-    <div class="col-md-6">
-      <label for="age" class="form-label">Age</label>
-      <input type="number" class="form-control" id="age" name="age" min="17" max="40" required />
-    </div>
-
-    <div class="col-md-6">
-      <select class="form-select country" aria-label="Default select example" name="country" >
-        <option selected>Select Country</option>
-      </select>
-    </div>
-
-    <div class="col-md-6">
-      <select class="form-select state" aria-label="Default select example" name="state" >
-        <option selected>Select state</option>
-      </select>
-    </div>
-
-    <div class="col-md-6">
-      <select class="form-select city" aria-label="Default select example" name="city" >
-        <option selected>Select city</option>
-      </select>
-    </div>
-
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary">Sign in</button>
-    </div>
-  </form>
-
-  <script>
-    // Function to validate file size
-    function validateFileSize(input) {
-      const maxSize = 2 * 1024 * 1024; // Maximum size in bytes (2 MB)
-      const file = input.files[0]; // Get the selected file
-      const errorDiv = document.getElementById("fileError");
-
-      if (file) {
-        if (file.size > maxSize) {
-          // Show error message
-          errorDiv.style.display = "block";
-          errorDiv.textContent = "File size exceeds 2MB. Please upload a smaller file.";
-          input.value = ""; // Clear the file input
-          return false;
-        } else {
-          // Hide error message if file size is valid
-          errorDiv.style.display = "none";
-          errorDiv.textContent = "";
-          return true;
+    <form class="row g-3" method="POST" action="/signup" enctype="multipart/form-data">
+      <div class="col-md-6">
+        <label for="inputCity" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="inputCity" name="fullName" placeholder="Full Name" required />
+      </div>
+      <div class="col-md-6">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required />
+      </div>
+      <div class="col-md-6">
+        <label for="inputEmail4" class="form-label">Email</label>
+        <input type="email" class="form-control" id="inputEmail4" name="email" required />
+      </div>
+      <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Phone Number</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="inputPassword4"
+          name="phoneNumber"
+          pattern="\d{10}"
+          required
+        />
+      </div>
+  
+      <div class="col-md-6">
+        <label for="inputCity" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="inputCity"
+          name="password"
+          required
+        />
+      </div>
+  
+      <div class="col-md-6">
+        <label for="inputCity" class="form-label">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="inputCity"
+          name="conformpassword"
+          required
+        />
+      </div>
+  
+      <div class="col-md-6">
+        <label for="inlineFormSelectPref">Preferred Position</label>
+        <select class="form-select" id="inlineFormSelectPref" name="prefferedPosition" required>
+          <option selected>Raider</option>
+          <option value="Defender">Defender</option>
+          <option value="All-Rounder">All-Rounder</option>
+        </select>
+      </div>
+  
+      <div class="col-md-6">
+        <label for="inlineFormSelectPref">Gender</label>
+        <select class="form-select" id="inlineFormSelectPref" name="gender" required>
+          <option selected>Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+  
+      <!-- Profile Image with Validation -->
+      <div class="col-md-6">
+        <label for="formFileMultiple" class="form-label">Profile Image</label>
+        <input
+          class="form-control"
+          type="file"
+          id="formFileMultiple"
+          name="profileImage"
+          onchange="validateFileSize(this)"
+        />
+        <div id="fileError" class="text-danger mt-1" style="display: none;">File size exceeds 2MB. Please upload a smaller file.</div>
+      </div>
+  
+      <div class="col-md-6">
+        <label for="age" class="form-label">Age</label>
+        <input type="number" class="form-control" id="age" name="age" min="17" max="40" required />
+      </div>
+  
+      <div class="col-md-6">
+        <select class="form-select country" aria-label="Default select example" name="country" >
+          <option selected>Select Country</option>
+        </select>
+      </div>
+  
+      <div class="col-md-6">
+        <select class="form-select state" aria-label="Default select example" name="state" >
+          <option selected>Select state</option>
+        </select>
+      </div>
+  
+      <div class="col-md-6">
+        <select class="form-select city" aria-label="Default select example" name="city" >
+          <option selected>Select city</option>
+        </select>
+      </div>
+  
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+      </div>
+    </form>
+  
+    <script>
+      // Function to validate file size
+      function validateFileSize(input) {
+        const maxSize = 2 * 1024 * 1024; // Maximum size in bytes (2 MB)
+        const file = input.files[0]; // Get the selected file
+        const errorDiv = document.getElementById("fileError");
+  
+        if (file) {
+          if (file.size > maxSize) {
+            // Show error message
+            errorDiv.style.display = "block";
+            errorDiv.textContent = "File size exceeds 2MB. Please upload a smaller file.";
+            input.value = ""; // Clear the file input
+            return false;
+          } else {
+            // Hide error message if file size is valid
+            errorDiv.style.display = "none";
+            errorDiv.textContent = "";
+            return true;
+          }
         }
       }
-    }
-  </script>
+    </script>
 </body>

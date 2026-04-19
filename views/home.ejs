@@ -1,88 +1,118 @@
-
 <% layout('./Layout/navebar') -%>
-<body>
+<link rel="stylesheet" href="/home.css">
 
-    <link rel="stylesheet" href="home.css">
-    <!-- Main Content -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6 half1 d-flex flex-column justify-content-center align-items-center">
-                <h1 class="mb-4 text-center" style="color: cornsilk;">
-                    Welcome to the RaidX!
-                </h1>
-                <p class="typewriter text-center" style="color: aqua; font-size: 1.5rem;">
-                    Play Bold, Dream Big – Kabaddi’s Time is Now!
-                </p>
+<section class="hero-section d-flex align-items-center">
+    <div class="container hero-content py-5">
+        <div class="row align-items-center g-5">
 
-               <%if(!currentUser){%>
-                <div class="login mt-5 shadow-lg">
-                    <form method="POST" action="/login">
-                        <div class="form-group mb-3">
-                            <label for="username">Username</label>
-                            <input 
-                                type="text" 
-                                id="username" 
-                                name="username" 
-                                class="form-control" 
-                                placeholder="Enter username" 
-                                required>
+            <!-- Left: Headline + Login -->
+            <div class="col-lg-6">
+                <div class="mb-4">
+                    <span class="badge text-uppercase mb-3 px-3 py-2" style="background:rgba(230,57,70,0.2);color:#e63946;border:1px solid rgba(230,57,70,0.4);border-radius:20px;font-size:.75rem;letter-spacing:1px;">
+                        <i class="bi bi-broadcast-pin me-1"></i>India's Kabaddi Platform
+                    </span>
+                    <h1 class="hero-title mb-3">
+                        Welcome to <span>RaidX</span>
+                    </h1>
+                    <p class="hero-tagline mb-4">
+                        Play Bold, Dream Big – Kabaddi's Time is Now!
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 mb-5">
+                        <div class="d-flex align-items-center gap-2 text-white-50" style="font-size:.9rem;">
+                            <i class="bi bi-trophy-fill" style="color:#e63946;"></i> Live Tournaments
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="password">Password</label>
-                            <input 
-                                type="password" 
-                                id="password" 
-                                name="password" 
-                                class="form-control" 
-                                placeholder="Enter password" 
-                                required>
+                        <div class="d-flex align-items-center gap-2 text-white-50" style="font-size:.9rem;">
+                            <i class="bi bi-people-fill" style="color:#e63946;"></i> Team Management
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Log in</button>
-                    </form>
-                    <hr>
-                    <a class="btn btn-success w-100" href="/signup">Sign up</a>
+                        <div class="d-flex align-items-center gap-2 text-white-50" style="font-size:.9rem;">
+                            <i class="bi bi-bar-chart-fill" style="color:#e63946;"></i> Live Scores
+                        </div>
+                    </div>
                 </div>
-               <%}%>
-                
+
+                <% if (!currentUser) { %>
+                <div class="login-card">
+                    <h5 class="text-white fw-bold mb-4 text-center">
+                        <i class="bi bi-person-circle me-2"></i>Sign In to RaidX
+                    </h5>
+                    <form method="POST" action="/login">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required autocomplete="username">
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="btn btn-login w-100 mb-3">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Log In
+                        </button>
+                    </form>
+                    <hr style="border-color:rgba(255,255,255,0.2);">
+                    <a class="btn btn-signup w-100" href="/signup">
+                        <i class="bi bi-person-plus me-2"></i>Create an Account
+                    </a>
+                </div>
+                <% } else { %>
+                <div class="login-card text-center">
+                    <img src="<%= currentUser.profile.url %>" alt="" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #e63946;margin-bottom:12px;">
+                    <h5 class="text-white fw-bold mb-1">Welcome back, <%= currentUser.fullName.split(' ')[0] %>!</h5>
+                    <p class="text-white-50 mb-3" style="font-size:.9rem;"><%= currentUser.prefferedPosition %></p>
+                    <a href="/tournaments/view" class="btn btn-login w-100">
+                        <i class="bi bi-trophy me-2"></i>Browse Tournaments
+                    </a>
+                </div>
+                <% } %>
             </div>
 
-            <div class="col-md-6 half2">
-                <!-- Review Carousel -->
-                <div id="reviewCarousel" class="carousel slide py-4" data-bs-ride="carousel">
-                    <div class="container">
-                        <h2 class="text-center text-light mb-4">What Our Users Say</h2>
-                        <div class="carousel-inner">
-                            <% let isActive = true; %>
-                            <% for (review of allReview) { %>
-                                <div class="carousel-item <%= isActive ? 'active' : '' %>">
-                                    <div class="card mx-auto shadow-lg"
-                                         style="max-width: 24rem; border-radius: 15px; background-color: rgba(255, 255, 255, 0.9);">
-                                        <div class="card-body">
-                                            <img src="<%= review.reviewer.profile.url %>" alt="<%= review.reviewer.fullName.charAt(0) %>'s Profile Picture" style="width:60px; height:60px; border-radius: 50%;">
-                                            <h5 class="card-title"><%= review.reviewer.fullName %></h5>
-                                            <p class="card-text"><%= review.review %></p>
+            <!-- Right: Reviews Carousel -->
+            <div class="col-lg-6 review-section">
+                <h4 class="text-center text-white mb-4 fw-bold">
+                    <i class="bi bi-chat-quote me-2" style="color:#e63946;"></i>What Our Players Say
+                </h4>
+                <div id="reviewCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+                    <div class="carousel-inner">
+                        <% let isActive = true; %>
+                        <% for (review of allReview) { %>
+                        <div class="carousel-item <%= isActive ? 'active' : '' %>">
+                            <div class="review-card">
+                                <div class="d-flex align-items-center gap-3 mb-3">
+                                    <img src="<%= review.reviewer.profile.url %>" alt="" class="reviewer-img">
+                                    <div>
+                                        <div class="reviewer-name"><%= review.reviewer.fullName %></div>
+                                        <div style="color:#e63946;font-size:.8rem;">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
                                         </div>
                                     </div>
                                 </div>
-                                <% isActive = false; %>
-                            <% } %>
+                                <p class="review-text mb-0">"<%= review.review %>"</p>
+                            </div>
                         </div>
-
-                        <!-- Carousel Controls -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+                        <% isActive = false; %>
+                        <% } %>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    <div class="carousel-indicators position-relative mt-3">
+                        <% let i = 0; %>
+                        <% for (review of allReview) { %>
+                        <button type="button" data-bs-target="#reviewCarousel" data-bs-slide-to="<%= i %>" class="<%= i===0 ? 'active' : '' %>" style="background-color:rgba(230,57,70,0.6);width:8px;height:8px;border-radius:50%;border:none;margin:0 3px;"></button>
+                        <% i++; %>
+                        <% } %>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
-
-</body>
-
-
+</section>

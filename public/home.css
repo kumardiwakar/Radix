@@ -1,40 +1,126 @@
+/* ── RaidX Global Styles ── */
+:root {
+    --brand-red: #e63946;
+    --brand-blue: #1d3557;
+    --brand-accent: #457b9d;
+}
 
-body {
-    background: linear-gradient(to right, #1e3c72, #2a5298);
+/* ── Home page hero ── */
+.hero-section {
+    background: linear-gradient(135deg, #1d3557 0%, #2c4a6e 50%, #1d3557 100%);
+    min-height: calc(100vh - 64px);
     color: #fff;
-    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
 }
-.half1, .half2 {
-    padding: 50px 20px;
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('https://www.transparenttextures.com/patterns/diagmonds-light.png');
+    opacity: 0.06;
 }
-.login {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #f1faee;
 }
-.carousel-item {
-    text-align: center;
+
+.hero-title span { color: var(--brand-red); }
+
+.hero-tagline {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: #a8dadc;
+    font-style: italic;
 }
+
+/* ── Login card ── */
+.login-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 32px;
+}
+
+.login-card .form-control {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    border-radius: 8px;
+}
+
+.login-card .form-control::placeholder { color: rgba(255,255,255,0.5); }
+.login-card .form-control:focus {
+    background: rgba(255,255,255,0.18);
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 0.2rem rgba(230,57,70,0.3);
+    color: #fff;
+}
+
+.login-card label { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+.btn-login {
+    background: linear-gradient(135deg, var(--brand-red), #c1121f);
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 10px;
+    transition: opacity 0.2s, transform 0.1s;
+}
+.btn-login:hover { opacity: 0.9; transform: translateY(-1px); color: #fff; }
+
+.btn-signup {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 9px;
+    transition: all 0.2s;
+}
+.btn-signup:hover { background: rgba(255,255,255,0.15); border-color: #fff; color: #fff; }
+
+/* ── Review carousel ── */
+.review-section { position: relative; z-index: 1; }
+
+.review-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.review-card .reviewer-img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--brand-red);
+}
+
+.review-card .reviewer-name { color: var(--brand-blue); font-weight: 700; }
+.review-card .review-text   { color: #555; font-style: italic; line-height: 1.6; }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: none;
+    background-color: rgba(230,57,70,0.7);
+    border-radius: 50%;
+    padding: 18px;
+    background-size: 50%;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
-    .half1, .half2 {
-        padding: 20px;
-    }
-    .typewriter {
-        font-size: 1rem;
-        white-space: normal;
-        border-right: none;
-    }
-    h1 {
-        font-size: 1.5rem;
-    }
-}
-@media (max-width: 576px) {
-    .typewriter {
-        font-size: 0.9rem;
-        text-align: center;
-    }
-    h1 {
-        font-size: 1.2rem;
-    }
+    .hero-section { min-height: auto; padding: 40px 0; }
+    .login-card { padding: 20px; }
 }

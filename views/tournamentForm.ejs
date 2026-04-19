@@ -1,46 +1,46 @@
 <% layout('./Layout/navebar') -%>
-<body class="bg-light py-5">
-    <div class="container">
-        <%if(currentUser){%>
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="card-title mb-0">Tournament Signup</h4>
+
+<div class="container py-5" style="max-width:680px;">
+    <% if (currentUser) { %>
+    <div class="form-card card">
+        <div class="card-header">
+            <h4 class="mb-0 fw-bold"><i class="bi bi-trophy-fill me-2"></i>Create New Tournament</h4>
+        </div>
+        <div class="card-body p-4">
+            <form class="row g-3" method="POST" action="/tournament/signup">
+                <div class="col-md-6">
+                    <label for="tournamentName" class="form-label fw-semibold">Tournament Name</label>
+                    <input type="text" class="form-control" id="tournamentName" name="tournamentName" placeholder="e.g. State Kabaddi Cup 2025" required>
                 </div>
-                <div class="card-body">
-                    <form class="row g-4" method="POST" action="/tournament/signup">
-                        <!-- Tournament Name -->
-                        <div class="col-md-6">
-                            <label for="Tournament" class="form-label">Tournament Name</label>
-                            <input type="text" class="form-control" id="Tournament" name="tournamentName" placeholder="Enter tournament name" required>
-                        </div>
-                        <!-- Location -->
-                        <div class="col-md-6">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
-                        </div>
-                        <!-- Description -->
-                        <div class="col-12">
-                            <label for="description" class="form-label">Tournament Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Write tournament description..." required></textarea>
-                        </div>
-                        <!-- Start Date -->
-                        <div class="col-md-6">
-                            <label for="startDate" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="startDate" name="startDate" required>
-                        </div>
-                        <!-- End Date -->
-                        <div class="col-md-6">
-                            <label for="endDate" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="endDate" name="endDate" required>
-                        </div>
-                        <!-- Submit Button -->
-                        <div class="col-12 d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-                        </div>
-                    </form>
+                <div class="col-md-6">
+                    <label for="location" class="form-label fw-semibold">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="City, State" required>
                 </div>
-            </div>
-        <%}else{%>
-        <%}%>
+                <div class="col-12">
+                    <label for="description" class="form-label fw-semibold">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Describe the tournament..." required></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label for="startDate" class="form-label fw-semibold">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" name="startDate" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="endDate" class="form-label fw-semibold">End Date</label>
+                    <input type="date" class="form-control" id="endDate" name="endDate" required>
+                </div>
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-brand w-100 py-2">
+                        <i class="bi bi-check-circle me-2"></i>Create Tournament
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</body>
+    <% } else { %>
+    <div class="text-center py-5">
+        <i class="bi bi-lock-fill" style="font-size:3rem;color:#dee2e6;"></i>
+        <h5 class="mt-3 text-muted">Please log in to create a tournament</h5>
+        <a href="/" class="btn btn-brand mt-3"><i class="bi bi-box-arrow-in-right me-1"></i>Log In</a>
+    </div>
+    <% } %>
+</div>

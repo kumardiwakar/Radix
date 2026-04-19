@@ -1,43 +1,38 @@
 <% layout('./Layout/navebar') -%>
-<body class="bg-light py-5">
-    <div class="container">
-        <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white">
-                <h4 class="card-title mb-0">Tournament Edit</h4>
-            </div>
-            <div class="card-body">
-                <form class="row g-4" method="POST" action="/tournament/<%=tournament._id%>/edit?_method=PATCH">
-                    <!-- Tournament Name -->
-                    <div class="col-md-6">
-                        <label for="Tournament" class="form-label">Tournament Name</label>
-                        <input type="text" class="form-control" id="Tournament" name="tournamentName" value="<%= tournament. tournamentName%>" required>
-                    </div>
-                    <!-- Location -->
-                    <div class="col-md-6">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="location" name="location" value="<%=tournament.location%>" required>
-                    </div>
-                    <!-- Description -->
-                    <div class="col-12">
-                        <label for="description" class="form-label">Tournament Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="4"  required><%=tournament.description%></textarea>
-                    </div>
-                    <!-- Start Date -->
-                    <div class="col-md-6">
-                        <label for="startDate" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="startDate" name="startDate" >
-                    </div>
-                    <!-- End Date -->
-                    <div class="col-md-6">
-                        <label for="endDate" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="endDate" name="endDate" >
-                    </div>
-                    <!-- Submit Button -->
-                    <div class="col-12 d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-                    </div>
-                </form>
-            </div>
+
+<div class="container py-5" style="max-width:680px;">
+    <div class="form-card card">
+        <div class="card-header">
+            <h4 class="mb-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Tournament</h4>
+        </div>
+        <div class="card-body p-4">
+            <form class="row g-3" method="POST" action="/tournament/<%= tournament._id %>/edit?_method=PATCH">
+                <div class="col-md-6">
+                    <label for="tournamentName" class="form-label fw-semibold">Tournament Name</label>
+                    <input type="text" class="form-control" id="tournamentName" name="tournamentName" value="<%= tournament.tournamentName %>" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="location" class="form-label fw-semibold">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" value="<%= tournament.location %>" required>
+                </div>
+                <div class="col-12">
+                    <label for="description" class="form-label fw-semibold">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required><%= tournament.description %></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label for="startDate" class="form-label fw-semibold">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" name="startDate">
+                </div>
+                <div class="col-md-6">
+                    <label for="endDate" class="form-label fw-semibold">End Date</label>
+                    <input type="date" class="form-control" id="endDate" name="endDate">
+                </div>
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-brand w-100 py-2">
+                        <i class="bi bi-save me-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-</body>
+</div>

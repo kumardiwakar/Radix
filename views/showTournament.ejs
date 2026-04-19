@@ -1,63 +1,88 @@
 <% layout('./Layout/navebar') -%>
-<body class="bg-light py-5">
-  <div class="container">
-    <style>
-      .card:hover {
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        transform: scale(1.05);
-      }
-    </style>
-    <!-- Page Heading -->
-    <h1 class="text-center mb-4">Live and Upcoming Tournaments</h1>
-    
-    <% if (tournaments && tournaments.length > 0) { %>
-      <div class="row g-4">
-        <% for (tournament of tournaments) { %>
-          
-          <%if(new Date(tournament.endDate).getFullYear() >= new Date().getFullYear() && new Date(tournament.endDate).getMonth() >= new Date().getMonth() && new Date(tournament.endDate).getDate() >= new Date().getDate()){%>
-            <div class="col-md-4">
-              <!-- Tournament Card -->
-              <div class="card shadow-sm h-100">
-                <div class="card-body">
-                  <!-- Tournament Name -->
-                  <h5 class="card-title text-primary"><%= tournament.tournamentName %></h5>
-                  <!-- Description -->
-                  <p class="card-text text-muted"><%= tournament.description %></p>
-                  <!-- Location -->
-                  <p><b>Location:</b> <%= tournament.location %></p>
-                  <!-- Start Date -->
-                  <p><b>Start Date:</b> <%=`${ new Date(tournament.startDate).getDate()}/${new Date(tournament.startDate).getMonth()+1}/${new Date(tournament.startDate).getFullYear()} (${String(new Date(tournament.startDate)).substring(0,3)})`%></p>
-                  <!-- End Date -->
-                  <p><b>End Date:</b> <%=`${ new Date(tournament.endDate).getDate()}/${new Date(tournament.endDate).getMonth()+1}/${new Date(tournament.endDate).getFullYear()} (${String(new Date(tournament.endDate)).substring(0,3)})`%></p>
-                  <!-- Organiser -->
-                    <p><b>Organiser :</b> <%= tournament.organiserId.fullName %></p>
-                  <!-- View Button -->
-                  <a href="/tournament/<%= tournament._id %>/detail/view" class="btn btn-primary">View Details</a>
-                  <% if (userId && String(userId) === String(tournament.organiserId._id)) { %>
-                    <a href="/tournament/<%= tournament._id %>/edit" class="btn btn-primary">Edit</a>
-                  <%}%>
-                  <%if(new Date(tournament.startDate).getFullYear() <= new Date().getFullYear() && new Date(tournament.startDate).getMonth() <= new Date().getMonth() && new Date(tournament.startDate).getDate() > new Date().getDate()){%>
-                    <div class="position-absolute top-0 end-0 m-2">
-                      <span class="badge bg-danger">Upcoming</span>
-                  </div>
-                  <%}else{%>
-                    <div class="position-absolute top-0 end-0 m-2">
-                      <span class="badge bg-danger">Live</span>
-                  </div>
-                  <%}%>
-                  
-                </div>
-              </div>
-            </div>
-          <%}%>
 
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+        <h2 class="section-title mb-0">
+            <i class="bi bi-trophy-fill me-2" style="color:#e63946;"></i>Live &amp; Upcoming Tournaments
+        </h2>
+        <% if (currentUser) { %>
+        <a href="/tournament/form" class="btn btn-brand btn-sm px-3">
+            <i class="bi bi-plus-lg me-1"></i>New Tournament
+        </a>
         <% } %>
-      </div>
+    </div>
+
+    <% if (tournaments && tournaments.length > 0) { %>
+    <div class="row g-4">
+        <% for (tournament of tournaments) { %>
+        <%
+            const end   = new Date(tournament.endDate);
+            const start = new Date(tournament.startDate);
+            const now   = new Date();
+            const isActive = end >= now;
+            const isLive   = start <= now && end >= now;
+            const isUpcoming = start > now;
+        %>
+        <% if (isActive) { %>
+        <div class="col-md-6 col-lg-4">
+            <div class="raidx-card card h-100 position-relative">
+                <!-- Status badge -->
+                <div class="position-absolute top-0 end-0 m-3" style="z-index:1;">
+                    <% if (isUpcoming) { %>
+                        <span class="badge rounded-pill" style="background:#457b9d;font-size:.72rem;padding:5px 10px;">
+                            <i class="bi bi-clock me-1"></i>Upcoming
+                        </span>
+                    <% } else { %>
+                        <span class="badge-live rounded-pill" style="font-size:.72rem;padding:5px 10px;">
+                            <i class="bi bi-broadcast me-1"></i>Live
+                        </span>
+                    <% } %>
+                </div>
+
+                <!-- Card top accent bar -->
+                <div style="height:4px;background:linear-gradient(90deg,#e63946,#457b9d);"></div>
+
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-1" style="color:#1d3557;"><%= tournament.tournamentName %></h5>
+                    <p class="text-muted mb-3" style="font-size:.85rem;"><%= tournament.description %></p>
+
+                    <div class="d-flex flex-column gap-1 mb-3" style="font-size:.88rem;">
+                        <div><i class="bi bi-geo-alt-fill me-2" style="color:#e63946;"></i><%= tournament.location %></div>
+                        <div><i class="bi bi-calendar-event me-2" style="color:#457b9d;"></i>
+                            <%=`${new Date(tournament.startDate).getDate()}/${new Date(tournament.startDate).getMonth()+1}/${new Date(tournament.startDate).getFullYear()}`%>
+                            &nbsp;→&nbsp;
+                            <%=`${new Date(tournament.endDate).getDate()}/${new Date(tournament.endDate).getMonth()+1}/${new Date(tournament.endDate).getFullYear()}`%>
+                        </div>
+                        <div><i class="bi bi-person-fill me-2" style="color:#457b9d;"></i><%= tournament.organiserId.fullName %></div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="/tournament/<%= tournament._id %>/detail/view" class="btn btn-brand btn-sm flex-grow-1">
+                            <i class="bi bi-eye me-1"></i>View Details
+                        </a>
+                        <% if (userId && String(userId) === String(tournament.organiserId._id)) { %>
+                        <a href="/tournament/<%= tournament._id %>/edit" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <% } %>
+    </div>
     <% } else { %>
-      <!-- No Tournaments Message -->
-      <div class="alert alert-warning text-center" role="alert">
-        No tournaments available at the moment.
-      </div>
+    <div class="text-center py-5">
+        <i class="bi bi-trophy" style="font-size:4rem;color:#dee2e6;"></i>
+        <h5 class="mt-3 text-muted">No tournaments available right now</h5>
+        <p class="text-muted">Be the first to create one!</p>
+        <% if (currentUser) { %>
+        <a href="/tournament/form" class="btn btn-brand mt-2">
+            <i class="bi bi-plus-lg me-1"></i>Create Tournament
+        </a>
+        <% } %>
+    </div>
     <% } %>
-  </div>
-</body>
+</div>

@@ -41,7 +41,6 @@ router.post('/signup', upload.single('profileImage'), async (req, res) => {
           filename: req.file.filename,
         };
       }
-      console.log(req.file);
       // Create a new user instance
       const user1 = new user({
           profile,

@@ -1,50 +1,86 @@
 <% layout('./Layout/navebar') -%>
-<body class="p-3 m-0 border-0" style="margin-top: 2% !important; padding-top: 3% !important;">
-    <div class="container">
-        <h1 class="text-center text-primary mb-4"><%=teamDetail.teamName%></h1>
-        <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white text-center">
-                <h4>Captain Name: <%=teamDetail.captainId.fullName%></h4>
+
+<div class="container py-4">
+    <!-- Team Header -->
+    <div class="raidx-card card mb-4 overflow-hidden">
+        <div style="height:4px;background:linear-gradient(90deg,#e63946,#457b9d);"></div>
+        <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:56px;height:56px;background:linear-gradient(135deg,#1d3557,#457b9d);">
+                    <i class="bi bi-shield-fill text-white fs-4"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0" style="color:#1d3557;"><%= teamDetail.teamName %></h2>
+                    <p class="text-muted mb-0">
+                        <i class="bi bi-star-fill me-1" style="color:#e63946;"></i>
+                        Captain: <strong><%= teamDetail.captainId.fullName %></strong>
+                    </p>
+                </div>
+                <div class="ms-auto">
+                    <span class="badge bg-light text-dark border" style="font-size:.8rem;">
+                        <i class="bi bi-person-check me-1"></i><%= teamDetail.players.length %> Players
+                    </span>
+                </div>
             </div>
-            <div class="card-body">
-                <table class="table table-hover table-striped">
-                    <thead class="table-primary">
+        </div>
+    </div>
+
+    <!-- Players Table -->
+    <div class="raidx-card card">
+        <div class="card-header" style="background:linear-gradient(135deg,#1d3557,#457b9d);color:#fff;border:none;border-radius:12px 12px 0 0;">
+            <h6 class="mb-0 fw-bold"><i class="bi bi-table me-2"></i>Player Statistics</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table raidx-table mb-0" style="font-size:.88rem;">
+                    <thead>
                         <tr>
-                            <th scope="col">Player's Name</th>
-                            <th scope="col">Preferred Position</th>
-                            <th scope="col">Raid Points</th>
-                            <th scope="col">Tackle Points</th>
-                            <th scope="col">Bonus Points</th>
-                            <th scope="col">Total Points</th>
-                            <th scope="col">Match Played</th>
+                            <th class="ps-3">Player</th>
+                            <th class="text-center">Position</th>
+                            <th class="text-center">Raid</th>
+                            <th class="text-center">Tackle</th>
+                            <th class="text-center">Bonus</th>
+                            <th class="text-center">Total</th>
+                            <th class="text-center">Matches</th>
+                            <% if (currentUser && (new Date() <= new Date(teamDetail.tournamentId.endDate)) && (String(currentUser._id) === String(teamDetail.tournamentId.organiserId._id))) { %>
+                            <th class="text-center">Action</th>
+                            <% } %>
                         </tr>
                     </thead>
                     <tbody>
-                       <% for(player of teamDetail.players){%>
+                        <% for (player of teamDetail.players) { %>
                         <tr>
-                            <% if (String(player._id) === String(teamDetail.captainId._id)) { %>
-                                <td><%= player.fullName %> (C)</td>
-                            <% } else { %>
-                                <td><%= player.fullName %> 
-                                    <% if (currentUser   && (new Date() <= new Date(teamDetail.tournamentId.endDate)) &&
-                                           (String(currentUser._id) === String(teamDetail.tournamentId.organiserId._id))) { %>
-                                        <a class="btn btn-outline-primary" href="/player/<%= teamDetail.tournamentId._id %>/<%= teamDetail._id %>/<%= player._id %>/delete">Delete</a>
-                                    <% } %>
-                                </td>
+                            <td class="ps-3 fw-semibold">
+                                <% if (String(player._id) === String(teamDetail.captainId._id)) { %>
+                                    <i class="bi bi-star-fill me-1" style="color:#e63946;font-size:.75rem;"></i><%= player.fullName %>
+                                    <span class="badge ms-1" style="background:rgba(230,57,70,.12);color:#e63946;font-size:.65rem;">C</span>
+                                <% } else { %>
+                                    <%= player.fullName %>
+                                <% } %>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-light text-dark border" style="font-size:.72rem;"><%= player.prefferedPosition %></span>
+                            </td>
+                            <td class="text-center"><%= player.raidPoint %></td>
+                            <td class="text-center"><%= player.taklePoint %></td>
+                            <td class="text-center"><%= player.bonusPoint %></td>
+                            <td class="text-center fw-bold" style="color:#1d3557;"><%= player.bonusPoint + player.taklePoint + player.raidPoint %></td>
+                            <td class="text-center"><%= player.matchPlayed %></td>
+                            <% if (currentUser && (new Date() <= new Date(teamDetail.tournamentId.endDate)) && (String(currentUser._id) === String(teamDetail.tournamentId.organiserId._id))) { %>
+                            <td class="text-center">
+                                <% if (String(player._id) !== String(teamDetail.captainId._id)) { %>
+                                <a class="btn btn-outline-danger btn-sm" href="/player/<%= teamDetail.tournamentId._id %>/<%= teamDetail._id %>/<%= player._id %>/delete"
+                                   onclick="return confirm('Remove this player?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                <% } %>
+                            </td>
                             <% } %>
-                            
-
-                            <td><%=player.prefferedPosition%></td>
-                            <td><%=player.raidPoint%></td>
-                            <td><%=player.taklePoint%></td>
-                            <td><%=player.bonusPoint%></td>
-                            <td><%=player.bonusPoint + player.taklePoint + player.raidPoint%></td>
-                            <td><%=player.matchPlayed%></td>
                         </tr>
-                       <%}%>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-</body>
+</div>

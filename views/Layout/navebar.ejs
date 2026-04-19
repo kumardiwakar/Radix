@@ -3,168 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RaidX</title>
+    <title>RaidX – Kabaddi Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        :root {
+            --brand-red: #e63946;
+            --brand-blue: #1d3557;
+            --brand-accent: #457b9d;
+            --brand-light: #f1faee;
+        }
+
         body {
-            padding-top: 56px; /* Prevent navbar overlap */
+            padding-top: 64px;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: linear-gradient(135deg, var(--brand-blue) 0%, #2c4a6e 100%) !important;
+            border-bottom: 3px solid var(--brand-red);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
         .navbar-brand img {
-            height: 40px;
-            width: auto;
+            height: 42px;
+            width: 42px;
             border-radius: 50%;
-            margin-right: 10px;
+            object-fit: cover;
+            border: 2px solid var(--brand-red);
         }
-        .navbar-brand span:first-child {
-            color: red;
+
+        .brand-raid { color: var(--brand-red); font-weight: 800; font-size: 1.5rem; letter-spacing: -1px; }
+        .brand-x    { color: #fff;            font-weight: 900; font-size: 1.6rem; }
+
+        .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.85) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active-link {
+            background: rgba(255,255,255,0.15);
+            color: #fff !important;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255,255,255,0.4);
+        }
+        .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        /* Avatar button */
+        .avatar-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--brand-red) !important;
+            padding: 0;
+            background: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .avatar-btn:hover { transform: scale(1.08); }
+        .avatar-btn img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Profile dropdown */
+        .profile-dropdown {
+            min-width: 300px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .profile-dropdown .dropdown-header-bg {
+            background: linear-gradient(135deg, var(--brand-blue), var(--brand-accent));
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .profile-dropdown .dropdown-header-bg img {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            margin-bottom: 8px;
+        }
+
+        .profile-dropdown .dropdown-body { padding: 12px 16px; }
+
+        .profile-dropdown .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.85rem;
+        }
+        .profile-dropdown .info-row:last-child { border-bottom: none; }
+        .profile-dropdown .info-label { color: #6c757d; font-weight: 600; }
+
+        /* Flash alerts */
+        .flash-container { position: fixed; top: 70px; right: 16px; z-index: 1055; min-width: 280px; max-width: 380px; }
+
+        /* ── Cards ── */
+        .raidx-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+        }
+        .raidx-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+        }
+
+        /* ── Badges ── */
+        .badge-live {
+            background: var(--brand-red);
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.6; }
+        }
+
+        /* ── Section headings ── */
+        .section-title {
             font-weight: 700;
-        }
-        .navbar-brand span:last-child {
-            color: blue;
-            font-weight: 900;
-            font-size: larger;
-        }
-        /* .navButton a {
-            margin-left: 5px;
-        } */
-        .alert {
-            margin-top: 20px;
+            color: var(--brand-blue);
+            border-left: 4px solid var(--brand-red);
+            padding-left: 12px;
+            margin-bottom: 1.2rem;
         }
 
+        /* ── Forms ── */
+        .form-card {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            overflow: hidden;
+        }
+        .form-card .card-header {
+            background: linear-gradient(135deg, var(--brand-blue), var(--brand-accent));
+            color: #fff;
+            padding: 18px 24px;
+            border: none;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--brand-accent);
+            box-shadow: 0 0 0 0.2rem rgba(69,123,157,0.25);
+        }
+
+        /* ── Buttons ── */
+        .btn-brand {
+            background: linear-gradient(135deg, var(--brand-red), #c1121f);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .btn-brand:hover { opacity: 0.9; transform: translateY(-1px); color: #fff; }
+
+        .btn-brand-outline {
+            border: 2px solid var(--brand-blue);
+            color: var(--brand-blue);
+            border-radius: 8px;
+            font-weight: 600;
+            background: transparent;
+            transition: all 0.2s;
+        }
+        .btn-brand-outline:hover { background: var(--brand-blue); color: #fff; }
+
+        /* ── Tables ── */
+        .raidx-table thead {
+            background: linear-gradient(135deg, var(--brand-blue), var(--brand-accent));
+            color: #fff;
+        }
+        .raidx-table tbody tr:hover { background: rgba(69,123,157,0.07); }
+
+        /* ── Footer ── */
+        footer { margin-top: 60px !important; }
+
+        /* ── Score display ── */
+        .score-big {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        /* ── Responsive tweaks ── */
         @media (max-width: 576px) {
-    .dropdown-menu {
-        max-height: 300px; /* Adjust max height on small screens */
-        overflow-y: auto;
-        overflow-x: auto;
-        width: 200px; /* Adjust the width to allow content to overflow */
-    }
-
-    .dropdown-menu img {
-        max-width: 100%; /* Ensure the image inside the dropdown doesn’t stretch too much */
-    }
-}
-
+            .profile-dropdown { min-width: 260px; }
+            .score-big { font-size: 2rem; }
+        }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm">
-        <div class="container-fluid">
+    <!-- ── Navbar ── -->
+    <nav class="navbar navbar-expand-lg fixed-top shadow">
+        <div class="container-fluid px-3">
             <!-- Brand -->
             <a class="navbar-brand" href="/">
-                <img src="https://i.ytimg.com/vi/ExmCVRAsn3I/sddefault.jpg" alt="Logo">
-                <span>Raid</span><span>X</span>
+                <img src="https://i.ytimg.com/vi/ExmCVRAsn3I/sddefault.jpg" alt="RaidX Logo">
+                <span class="brand-raid">Raid</span><span class="brand-x">X</span>
             </a>
-    
-            <!-- Navbar Toggler for Small Screens -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+
+            <!-- Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-              </button>
-    
-            <!-- Collapsible Navbar Content -->
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                   
-                
-                
-    
-                <!-- Right-aligned Buttons (Visible on Larger Screens, Collapsed to Dropdown on Smaller Screens) -->
-                
+            </button>
+
+            <!-- Nav links -->
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/tournaments/view">Live Tournament</a>
+                        <a class="nav-link" href="/tournaments/view">
+                            <i class="bi bi-trophy me-1"></i>Tournaments
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/tournament/form">New Tournament</a>
+                        <a class="nav-link" href="/tournament/form">
+                            <i class="bi bi-plus-circle me-1"></i>New Tournament
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/live">Live Matches</a>
+                        <a class="nav-link" href="/live">
+                            <i class="bi bi-broadcast me-1"></i>Live Matches
+                        </a>
                     </li>
-                    
-                    
                 </ul>
+
+                <!-- Mobile: profile actions inside collapse -->
+                <% if (currentUser) { %>
+                <div class="d-lg-none border-top border-secondary mt-2 pt-2">
+                    <div class="d-flex align-items-center gap-2 mb-2 px-1">
+                        <img src="<%= currentUser.profile.url %>" alt="" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--brand-red);">
+                        <div>
+                            <div class="text-white fw-semibold" style="font-size:.9rem;"><%= currentUser.fullName %></div>
+                            <div class="text-white-50" style="font-size:.75rem;">@<%= currentUser.username %></div>
+                        </div>
+                    </div>
+                    <a href="/user/<%= currentUser._id %>/detail" class="nav-link"><i class="bi bi-person me-1"></i>View Profile</a>
+                    <a href="/user/<%= currentUser._id %>/edit" class="nav-link"><i class="bi bi-pencil me-1"></i>Edit Profile</a>
+                    <a href="/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-right me-1"></i>Log Out</a>
+                </div>
+                <% } %>
             </div>
 
-            <li class="nav-item dropdown scrollable-form">
-                <% if (currentUser) { %>
-                    <!-- Dropdown Button with Profile Image -->
-                    <button type="button"
-                        class="btn btn-light dropdown-toggle p-0 border-0"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; border: 1px solid black !important;">
-                        <img src="<%= currentUser.profile.url %>"
-                            alt="<%= currentUser.fullName.charAt(0) %>"
-                            style="width: 100%; height: 100%; object-fit: cover;">
-                    </button>
-            
-                    <!-- Dropdown Menu -->
-                    <div class="dropdown-menu dropdown-menu-end p-4 shadow-lg w-100" style="min-width: 300px;">
-                        <!-- Profile Picture -->
-                        <div class="text-center mb-3">
-                            <img src="<%= currentUser.profile.url %>"
-                                alt="<%= currentUser.fullName.charAt(0) %>"
-                                style="height: 80px; width: 80px; border-radius: 50%; object-fit: cover; border: 1px solid black !important;">
-                        </div>
-                        <div class="text-center">
-                            <h5 class="card-title text-primary"><%= currentUser.fullName %></h5>
-                            <p class="card-text text-muted"><em><%= currentUser.prefferedPosition %></em></p>
-                        </div>
-                        <ul class="list-group list-group-flush mb-3">
-                            <li class="list-group-item"><b>Username:</b> <%= currentUser.username %></li>
-                            <li class="list-group-item"><b>Email:</b> <%= currentUser.email %></li>
-                            <li class="list-group-item"><b>Phone No:</b> <%= currentUser.phoneNumber %></li>
-                            <li class="list-group-item"><b>Country:</b> <%= currentUser.country %></li>
-                            <li class="list-group-item"><b>State:</b> <%= currentUser.state %></li>
-                            <li class="list-group-item"><b>City:</b> <%= currentUser.city %></li>
-                            <li class="list-group-item"><b>Gender:</b> <%= currentUser.gender %></li>
-                            <li class="list-group-item"><b>Age:</b> <%= currentUser.age %></li>
-                        </ul>
-                        <div class="d-grid gap-2">
-                            <a href="/user/<%= currentUser._id %>/edit" class="btn btn-outline-primary">Edit Profile</a>
-                            <a href="/user/<%= currentUser._id %>/detail" class="btn btn-outline-primary">View Profile</a>
-                            <a href="/logout" class="btn btn-outline-danger">Log Out</a>
-                        </div>
-                        <hr>
-                        <%if(!currentUser.reviewId){%>
-                        <a href="/review/<%=currentUser._id%>" class="btn btn-danger d-block">Write a Review</a>
-                        <%}else{%>
-                            <a href="/review/<%=currentUser.reviewId%>/edit" class="btn btn-danger d-block">Edit Review</a>
-                        <%}%>
+            <!-- Desktop: avatar dropdown -->
+            <% if (currentUser) { %>
+            <div class="dropdown d-none d-lg-block ms-2">
+                <button class="avatar-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="border:none;">
+                    <img src="<%= currentUser.profile.url %>" alt="<%= currentUser.fullName %>">
+                </button>
+                <div class="dropdown-menu dropdown-menu-end profile-dropdown">
+                    <div class="dropdown-header-bg">
+                        <img src="<%= currentUser.profile.url %>" alt="<%= currentUser.fullName %>">
+                        <div class="fw-bold fs-6"><%= currentUser.fullName %></div>
+                        <div style="font-size:.8rem;opacity:.85;"><em><%= currentUser.prefferedPosition %></em></div>
                     </div>
-                <% } %>
-            </li>
-            
-            
-
-
-
+                    <div class="dropdown-body">
+                        <div class="info-row"><span class="info-label"><i class="bi bi-at me-1"></i>Username</span><span><%= currentUser.username %></span></div>
+                        <div class="info-row"><span class="info-label"><i class="bi bi-envelope me-1"></i>Email</span><span><%= currentUser.email %></span></div>
+                        <div class="info-row"><span class="info-label"><i class="bi bi-telephone me-1"></i>Phone</span><span><%= currentUser.phoneNumber %></span></div>
+                        <div class="info-row"><span class="info-label"><i class="bi bi-geo-alt me-1"></i>Location</span><span><%= currentUser.city %>, <%= currentUser.state %></span></div>
+                        <div class="info-row"><span class="info-label"><i class="bi bi-person me-1"></i>Gender / Age</span><span><%= currentUser.gender %>, <%= currentUser.age %> yrs</span></div>
+                        <div class="d-grid gap-2 mt-3">
+                            <a href="/user/<%= currentUser._id %>/detail" class="btn btn-sm btn-brand-outline"><i class="bi bi-person-lines-fill me-1"></i>View Profile</a>
+                            <a href="/user/<%= currentUser._id %>/edit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Edit Profile</a>
+                            <a href="/logout" class="btn btn-sm btn-outline-danger"><i class="bi bi-box-arrow-right me-1"></i>Log Out</a>
+                        </div>
+                        <hr class="my-2">
+                        <% if (!currentUser.reviewId) { %>
+                            <a href="/review/<%= currentUser._id %>" class="btn btn-brand w-100 btn-sm"><i class="bi bi-star me-1"></i>Write a Review</a>
+                        <% } else { %>
+                            <a href="/review/<%= currentUser.reviewId %>/edit" class="btn btn-brand w-100 btn-sm"><i class="bi bi-star-fill me-1"></i>Edit Review</a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <% } %>
         </div>
     </nav>
-    
-    
-    
-    
-    <!-- Flash Messages -->
-    <div class="container mt-3">
+
+    <!-- ── Flash Messages ── -->
+    <div class="flash-container">
         <% if (successMessage && successMessage.length) { %>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <%= successMessage %>
+            <div class="alert alert-success alert-dismissible fade show shadow-sm rounded-3" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i><%= successMessage %>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <% } %>
         <% if (errorMessage && errorMessage.length) { %>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <%= errorMessage %>
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm rounded-3" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i><%= errorMessage %>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <% } %>
     </div>
 
-    <!-- Main Content -->
-    <div class="container mt-4">
+    <!-- ── Main Content ── -->
+    <main>
         <%- body -%>
-    </div>
+    </main>
+
     <%- include("./footer.ejs") %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Auto-dismiss flash messages after 4 s
+        document.querySelectorAll('.flash-container .alert').forEach(el => {
+            setTimeout(() => {
+                const bsAlert = bootstrap.Alert.getOrCreateInstance(el);
+                bsAlert.close();
+            }, 4000);
+        });
+
+        // Highlight active nav link
+        const currentPath = '<%= currentPath %>';
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPath) link.classList.add('active-link');
+        });
+    </script>
 </body>
 </html>

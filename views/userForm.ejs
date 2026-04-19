@@ -1,133 +1,127 @@
 <% layout('./Layout/navebar') -%>
-<body class="container-fluid">
-  <!-- Example Code -->
-    <form class="row g-3" method="POST" action="/signup" enctype="multipart/form-data">
-      <div class="col-md-6">
-        <label for="inputCity" class="form-label">Full Name</label>
-        <input type="text" class="form-control" id="inputCity" name="fullName" placeholder="Full Name" required />
-      </div>
-      <div class="col-md-6">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required />
-      </div>
-      <div class="col-md-6">
-        <label for="inputEmail4" class="form-label">Email</label>
-        <input type="email" class="form-control" id="inputEmail4" name="email" required />
-      </div>
-      <div class="col-md-6">
-        <label for="inputPassword4" class="form-label">Phone Number</label>
-        <input
-          type="tel"
-          class="form-control"
-          id="inputPassword4"
-          name="phoneNumber"
-          pattern="\d{10}"
-          required
-        />
-      </div>
-  
-      <div class="col-md-6">
-        <label for="inputCity" class="form-label">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="inputCity"
-          name="password"
-          required
-        />
-      </div>
-  
-      <div class="col-md-6">
-        <label for="inputCity" class="form-label">Confirm Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="inputCity"
-          name="conformpassword"
-          required
-        />
-      </div>
-  
-      <div class="col-md-6">
-        <label for="inlineFormSelectPref">Preferred Position</label>
-        <select class="form-select" id="inlineFormSelectPref" name="prefferedPosition" required>
-          <option selected>Raider</option>
-          <option value="Defender">Defender</option>
-          <option value="All-Rounder">All-Rounder</option>
-        </select>
-      </div>
-  
-      <div class="col-md-6">
-        <label for="inlineFormSelectPref">Gender</label>
-        <select class="form-select" id="inlineFormSelectPref" name="gender" required>
-          <option selected>Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-  
-      <!-- Profile Image with Validation -->
-      <div class="col-md-6">
-        <label for="formFileMultiple" class="form-label">Profile Image</label>
-        <input
-          class="form-control"
-          type="file"
-          id="formFileMultiple"
-          name="profileImage"
-          onchange="validateFileSize(this)"
-        />
-        <div id="fileError" class="text-danger mt-1" style="display: none;">File size exceeds 2MB. Please upload a smaller file.</div>
-      </div>
-  
-      <div class="col-md-6">
-        <label for="age" class="form-label">Age</label>
-        <input type="number" class="form-control" id="age" name="age" min="17" max="40" required />
-      </div>
-  
-      <div class="col-md-6">
-        <select class="form-select country" aria-label="Default select example" name="country" >
-          <option selected>Select Country</option>
-        </select>
-      </div>
-  
-      <div class="col-md-6">
-        <select class="form-select state" aria-label="Default select example" name="state" >
-          <option selected>Select state</option>
-        </select>
-      </div>
-  
-      <div class="col-md-6">
-        <select class="form-select city" aria-label="Default select example" name="city" >
-          <option selected>Select city</option>
-        </select>
-      </div>
-  
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">Sign in</button>
-      </div>
-    </form>
-  
-    <script>
-      // Function to validate file size
-      function validateFileSize(input) {
-        const maxSize = 2 * 1024 * 1024; // Maximum size in bytes (2 MB)
-        const file = input.files[0]; // Get the selected file
-        const errorDiv = document.getElementById("fileError");
-  
-        if (file) {
-          if (file.size > maxSize) {
-            // Show error message
-            errorDiv.style.display = "block";
-            errorDiv.textContent = "File size exceeds 2MB. Please upload a smaller file.";
-            input.value = ""; // Clear the file input
-            return false;
-          } else {
-            // Hide error message if file size is valid
-            errorDiv.style.display = "none";
-            errorDiv.textContent = "";
-            return true;
-          }
+
+<div class="container py-5" style="max-width:760px;">
+    <div class="form-card card">
+        <div class="card-header">
+            <h4 class="mb-0 fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Create Your RaidX Account</h4>
+        </div>
+        <div class="card-body p-4">
+            <form class="row g-3" method="POST" action="/signup" enctype="multipart/form-data">
+
+                <div class="col-md-6">
+                    <label for="fullName" class="form-label fw-semibold">Full Name</label>
+                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Your full name" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="username" class="form-label fw-semibold">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-at"></i></span>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Choose a username" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="email" class="form-label fw-semibold">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="phoneNumber" class="form-label fw-semibold">Phone Number</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="10-digit number" pattern="\d{10}" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Create a password" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="conformpassword" class="form-label fw-semibold">Confirm Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                        <input type="password" class="form-control" id="conformpassword" name="conformpassword" placeholder="Repeat password" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="prefferedPosition" class="form-label fw-semibold">Preferred Position</label>
+                    <select class="form-select" id="prefferedPosition" name="prefferedPosition" required>
+                        <option value="Raider" selected>Raider</option>
+                        <option value="Defender">Defender</option>
+                        <option value="All-Rounder">All-Rounder</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="gender" class="form-label fw-semibold">Gender</label>
+                    <select class="form-select" id="gender" name="gender" required>
+                        <option value="Male" selected>Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="age" class="form-label fw-semibold">Age</label>
+                    <input type="number" class="form-control" id="age" name="age" placeholder="17–40" min="17" max="40" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="profileImage" class="form-label fw-semibold">Profile Photo</label>
+                    <input class="form-control" type="file" id="profileImage" name="profileImage" accept="image/*" onchange="validateFileSize(this)">
+                    <div id="fileError" class="text-danger mt-1" style="display:none;font-size:.82rem;">
+                        <i class="bi bi-exclamation-triangle me-1"></i>File size exceeds 2 MB.
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Country</label>
+                    <select class="form-select country" name="country">
+                        <option value="">Select Country</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">State</label>
+                    <select class="form-select state" name="state">
+                        <option value="">Select State</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">City</label>
+                    <select class="form-select city" name="city">
+                        <option value="">Select City</option>
+                    </select>
+                </div>
+
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-brand w-100 py-2">
+                        <i class="bi bi-person-check me-2"></i>Create Account
+                    </button>
+                    <p class="text-center text-muted mt-3 mb-0" style="font-size:.85rem;">
+                        Already have an account? <a href="/" style="color:#e63946;">Log in</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function validateFileSize(input) {
+        const maxSize = 2 * 1024 * 1024;
+        const file = input.files[0];
+        const errorDiv = document.getElementById('fileError');
+        if (file && file.size > maxSize) {
+            errorDiv.style.display = 'block';
+            input.value = '';
+        } else {
+            errorDiv.style.display = 'none';
         }
-      }
-    </script>
-</body>
+    }
+</script>
+<script src="/js/api.js"></script>

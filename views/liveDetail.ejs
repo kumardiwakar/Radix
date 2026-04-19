@@ -1,195 +1,362 @@
 <% layout('./Layout/navebar') -%>
-<body class="bg-light py-5">
-    
-    <div class="container">
-        
-        <!-- Tournament Name -->
-        <div class="text-center mb-4 position-relative">
-            <h1 class="text-primary d-inline-block border-bottom border-primary pb-2"><%= match.tournamentId.tournamentName %></h1>
-            <%if(match.winner==='Panding'){%>
-                <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" style="font-size: 0.9rem; margin-top: 0.9rem;">
-                    Live
-                </span>
-           <% }%>
-            
-        </div>
-        <%if( match.winner!=='Panding'){%>
-            <h5 style="color: brown;"><%=match.winner%></h5>
-        <%}%>
-        <!-- Main Match Table -->
-        <div class="table-responsive mb-4">
-            <table class="table table-bordered table-striped">
-                <thead class="bg-primary text-white text-center">
-                    <tr>
-                        <th><%= match.teamA.teamName %></th>
-                        <th>Category</th>
-                        <th><%= match.teamB.teamName %></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    <tr class="text-center">
-                        <td class="fs-1 text-primary fw-bold"><%=raidPointA + taklePointA + bonusPointA +match.allOutPointsA + match.extraPointsA%></td>
-                        <td><strong>Total Points</strong></td>
-                        <td class="fs-1 text-success fw-bold"><%= raidPointB + taklePointB + bonusPointB +match.allOutPointsB + match.extraPointsB%></td>
-                    </tr>
-                    <tr class="text-center">
-                        <td><%= raidPointA %></td>
-                        <td><strong>Raid Points</strong></td>
-                        <td><%= raidPointB %></td>
-                    </tr>
-                    <tr class="text-center">
-                        <td><%= taklePointA %></td>
-                        <td><strong>Tackle Points</strong></td>
-                        <td><%= taklePointB %></td>
-                    </tr>
-                    <tr class="text-center">
-                        <td><%= bonusPointA %></td>
-                        <td><strong>Bonus Points</strong></td>
-                        <td><%= bonusPointB %></td>
-                    </tr>
-                    <tr class="text-center">
-                        <td><%= match.allOutPointsA %>
-                            <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= match.teamAPlayer[0]._id %>/allOutPointsA" class="btn btn-outline-primary btn-sm mt-1">+2</a>
-                            <% } %>
-                        </td>
-                        <td><strong>All out points</strong></td>
-                        <td><%= match.allOutPointsB %>
-                            <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= match.teamBPlayer[0]._id %>/allOutPointsB" class="btn btn-outline-primary btn-sm mt-1">+2</a>
-                            <% } %>
-                        </td>
-                    </tr>
-                    <tr class="text-center">
-                        <td><%= match.extraPointsA %>
-                            <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= match.teamAPlayer[0]._id %>/extraPointsA" class="btn btn-outline-primary btn-sm mt-1">+1</a>
-                            <% } %>
-                        </td>
-                        <td><strong>Extra points</strong></td>
-                        <td><%= match.extraPointsB %>
-                            <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                <a  href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= match.teamAPlayer[0]._id %>/extraPointsB" class="btn btn-outline-primary btn-sm mt-1">+1</a>
-                            <% } %>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
-        <!-- Team Players Section -->
-        <div class="row">
-            <!-- Team A Players -->
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h3><%= match.teamA.teamName %></h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped mb-0">
-                                <thead class="bg-primary text-white text-center">
-                                    <tr>
-                                        <th>Player</th>
-                                        <th>Raid</th>
-                                        <th>Tackle</th>
-                                        <th>Bonus</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% for (player of match.teamAPlayer) { %>
-                                        <tr class="text-center">
-                                            <td><%= player.fullName %></td>
-                                            <td><%= player.raidPoint %> 
-                                                <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                                    <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= player.id %>/raidPoint" class="btn btn-outline-primary btn-sm mt-1">+1</a>
-                                                <% } %>
-                                            </td>
-                                            <td><%= player.taklePoint %>
-                                                <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                                    <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= player.id %>/taklePoint" class="btn btn-outline-primary btn-sm mt-1">+1</a>
-                                                <% } %>
-                                            </td>
-                                            <td><%= player.bonusPoint %>
-                                                <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                                    <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= player.id %>/bonusPoint" class="btn btn-outline-primary btn-sm mt-1">+1</a>
-                                                <% } %>
-                                            </td>
-                                            <td><%= player.taklePoint + player.raidPoint + player.bonusPoint %></td>
-                                        </tr>
-                                    <% } %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+<div class="container py-4" id="matchPage">
+
+    <!-- ── Match Header ── -->
+    <div class="rounded-4 p-4 mb-4 text-white position-relative overflow-hidden" style="background:linear-gradient(135deg,#1d3557,#2c4a6e);">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+                <h2 class="fw-bold mb-1"><%= match.tournamentId.tournamentName %></h2>
+                <p class="mb-0 opacity-75" style="font-size:.9rem;">
+                    <i class="bi bi-geo-alt me-1"></i><%= match.tournamentId.location %>
+                    &nbsp;·&nbsp;
+                    <i class="bi bi-tag me-1"></i><%= match.matchType %>
+                </p>
+            </div>
+            <% if (match.winner === 'Panding') { %>
+            <span id="matchStatusBadge" class="badge-live rounded-pill px-3 py-2" style="font-size:.85rem;">
+                <i class="bi bi-broadcast me-1"></i>Live
+            </span>
+            <% } else { %>
+            <div class="text-center" id="matchStatusBadge">
+                <div class="badge bg-success rounded-pill px-3 py-2 mb-1" style="font-size:.85rem;">
+                    <i class="bi bi-trophy me-1"></i>Finished
                 </div>
+                <div class="fw-bold" style="color:#a8dadc;font-size:.9rem;"><%= match.winner %></div>
             </div>
-
-            <!-- Team B Players -->
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-success text-white text-center">
-                        <h3><%= match.teamB.teamName %></h3>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped mb-0">
-                                <thead class="bg-success text-white text-center">
-                                    <tr>
-                                        <th>Player</th>
-                                        <th>Raid</th>
-                                        <th>Tackle</th>
-                                        <th>Bonus</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% for (player of match.teamBPlayer) { %>
-                                        <tr class="text-center">
-                                            <td><%= player.fullName %></td>
-                                            <td><%= player.raidPoint %>
-                                                <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                                    <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= player.id %>/raidPoint" class="btn btn-outline-success btn-sm mt-1">+1</a>
-                                                <% } %>
-                                            </td>
-                                            <td><%= player.taklePoint %>
-                                                <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                                    <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= player.id %>/taklePoint" class="btn btn-outline-success btn-sm mt-1">+1</a>
-                                                <% } %>
-                                            </td>
-                                            <td><%= player.bonusPoint %>
-                                                <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-                                                    <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= player.id %>/bonusPoint" class="btn btn-outline-success btn-sm mt-1">+1</a>
-                                                <% } %>
-                                            </td>
-                                            <td><%= player.taklePoint + player.raidPoint + player.bonusPoint %></td>
-                                        </tr>
-                                    <% } %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <% } %>
         </div>
-
-        <% if(currentUser && match.winner==='Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
-            
-            <div class="d-flex justify-content-center align-items-center">
-                <a class="btn btn-success btn-sm mt-1" 
-                   href="/result/<%= encodeURIComponent(match._id) %>/
-                          <%= encodeURIComponent(match.teamA.teamName) %>/
-                          <%= encodeURIComponent(match.teamB.teamName) %>/
-                          <%= encodeURIComponent(raidPointA + taklePointA + bonusPointA + match.allOutPointsA + match.extraPointsA) %>/
-                          <%= encodeURIComponent(raidPointB + taklePointB + bonusPointB + match.allOutPointsB + match.extraPointsB) %>">
-                    Finish Match
-                </a>
-            </div>
-            
-        <% } %>
-
     </div>
-    
-</body>
+
+    <!-- ── Scoreboard ── -->
+    <div class="raidx-card card mb-4">
+        <div class="card-body p-0">
+            <div class="row g-0 text-center">
+                <div class="col-5 p-4">
+                    <div class="fw-bold mb-1" style="color:#1d3557;font-size:1rem;"><%= match.teamA.teamName %></div>
+                    <div class="score-big" id="totalA" style="color:#e63946;">
+                        <%= raidPointA + taklePointA + bonusPointA + match.allOutPointsA + match.extraPointsA %>
+                    </div>
+                </div>
+                <div class="col-2 d-flex align-items-center justify-content-center" style="background:#f8f9fa;">
+                    <span class="fw-black text-muted" style="font-size:1.1rem;letter-spacing:1px;">VS</span>
+                </div>
+                <div class="col-5 p-4">
+                    <div class="fw-bold mb-1" style="color:#1d3557;font-size:1rem;"><%= match.teamB.teamName %></div>
+                    <div class="score-big" id="totalB" style="color:#457b9d;">
+                        <%= raidPointB + taklePointB + bonusPointB + match.allOutPointsB + match.extraPointsB %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Stats Table ── -->
+    <div class="raidx-card card mb-4">
+        <div class="card-header" style="background:linear-gradient(135deg,#1d3557,#457b9d);color:#fff;border:none;border-radius:12px 12px 0 0;">
+            <h6 class="mb-0 fw-bold"><i class="bi bi-bar-chart-fill me-2"></i>Match Statistics</h6>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table raidx-table mb-0 text-center">
+                    <thead>
+                        <tr>
+                            <th style="width:35%;"><%= match.teamA.teamName %></th>
+                            <th style="width:30%;">Category</th>
+                            <th style="width:35%;"><%= match.teamB.teamName %></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="raidPointA"><%= raidPointA %></td>
+                            <td class="text-muted fw-semibold" style="font-size:.85rem;">Raid Points</td>
+                            <td id="raidPointB"><%= raidPointB %></td>
+                        </tr>
+                        <tr>
+                            <td id="taklePointA"><%= taklePointA %></td>
+                            <td class="text-muted fw-semibold" style="font-size:.85rem;">Tackle Points</td>
+                            <td id="taklePointB"><%= taklePointB %></td>
+                        </tr>
+                        <tr>
+                            <td id="bonusPointA"><%= bonusPointA %></td>
+                            <td class="text-muted fw-semibold" style="font-size:.85rem;">Bonus Points</td>
+                            <td id="bonusPointB"><%= bonusPointB %></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="allOutPointsA"><%= match.allOutPointsA %></span>
+                                <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= match.teamAPlayer[0]._id %>/allOutPointsA" class="btn btn-outline-danger btn-sm ms-1">+2</a>
+                                <% } %>
+                            </td>
+                            <td class="text-muted fw-semibold" style="font-size:.85rem;">All-Out Points</td>
+                            <td>
+                                <span id="allOutPointsB"><%= match.allOutPointsB %></span>
+                                <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= match.teamBPlayer[0]._id %>/allOutPointsB" class="btn btn-outline-primary btn-sm ms-1">+2</a>
+                                <% } %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="extraPointsA"><%= match.extraPointsA %></span>
+                                <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= match.teamAPlayer[0]._id %>/extraPointsA" class="btn btn-outline-danger btn-sm ms-1">+1</a>
+                                <% } %>
+                            </td>
+                            <td class="text-muted fw-semibold" style="font-size:.85rem;">Extra Points</td>
+                            <td>
+                                <span id="extraPointsB"><%= match.extraPointsB %></span>
+                                <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= match.teamAPlayer[0]._id %>/extraPointsB" class="btn btn-outline-primary btn-sm ms-1">+1</a>
+                                <% } %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Player Tables ── -->
+    <div class="row g-4 mb-4">
+        <!-- Team A -->
+        <div class="col-md-6">
+            <div class="raidx-card card h-100">
+                <div class="card-header text-white border-0" style="background:linear-gradient(135deg,#e63946,#c1121f);border-radius:12px 12px 0 0;">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2"></i><%= match.teamA.teamName %></h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table raidx-table mb-0 text-center" style="font-size:.85rem;" id="tableTeamA">
+                            <thead>
+                                <tr>
+                                    <th class="text-start ps-3">Player</th>
+                                    <th>Raid</th><th>Tackle</th><th>Bonus</th><th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (const player of match.teamAPlayer) { %>
+                                <tr data-player-id="<%= player.id %>">
+                                    <td class="text-start ps-3 fw-semibold"><%= player.fullName %></td>
+                                    <td class="cell-raid">
+                                        <%= player.raidPoint %>
+                                        <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                        <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= player.id %>/raidPoint" class="btn btn-outline-danger btn-sm p-0 px-1 ms-1" style="font-size:.7rem;">+1</a>
+                                        <% } %>
+                                    </td>
+                                    <td class="cell-takle">
+                                        <%= player.taklePoint %>
+                                        <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                        <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= player.id %>/taklePoint" class="btn btn-outline-danger btn-sm p-0 px-1 ms-1" style="font-size:.7rem;">+1</a>
+                                        <% } %>
+                                    </td>
+                                    <td class="cell-bonus">
+                                        <%= player.bonusPoint %>
+                                        <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                        <a href="/plus1/<%= match._id %>/<%= match.teamA._id %>/teamAPoint/<%= player.id %>/bonusPoint" class="btn btn-outline-danger btn-sm p-0 px-1 ms-1" style="font-size:.7rem;">+1</a>
+                                        <% } %>
+                                    </td>
+                                    <td class="fw-bold cell-total"><%= player.taklePoint + player.raidPoint + player.bonusPoint %></td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team B -->
+        <div class="col-md-6">
+            <div class="raidx-card card h-100">
+                <div class="card-header text-white border-0" style="background:linear-gradient(135deg,#457b9d,#1d3557);border-radius:12px 12px 0 0;">
+                    <h6 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2"></i><%= match.teamB.teamName %></h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table raidx-table mb-0 text-center" style="font-size:.85rem;" id="tableTeamB">
+                            <thead>
+                                <tr>
+                                    <th class="text-start ps-3">Player</th>
+                                    <th>Raid</th><th>Tackle</th><th>Bonus</th><th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (const player of match.teamBPlayer) { %>
+                                <tr data-player-id="<%= player.id %>">
+                                    <td class="text-start ps-3 fw-semibold"><%= player.fullName %></td>
+                                    <td class="cell-raid">
+                                        <%= player.raidPoint %>
+                                        <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                        <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= player.id %>/raidPoint" class="btn btn-outline-primary btn-sm p-0 px-1 ms-1" style="font-size:.7rem;">+1</a>
+                                        <% } %>
+                                    </td>
+                                    <td class="cell-takle">
+                                        <%= player.taklePoint %>
+                                        <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                        <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= player.id %>/taklePoint" class="btn btn-outline-primary btn-sm p-0 px-1 ms-1" style="font-size:.7rem;">+1</a>
+                                        <% } %>
+                                    </td>
+                                    <td class="cell-bonus">
+                                        <%= player.bonusPoint %>
+                                        <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+                                        <a href="/plus1/<%= match._id %>/<%= match.teamB._id %>/teamBPoint/<%= player.id %>/bonusPoint" class="btn btn-outline-primary btn-sm p-0 px-1 ms-1" style="font-size:.7rem;">+1</a>
+                                        <% } %>
+                                    </td>
+                                    <td class="fw-bold cell-total"><%= player.taklePoint + player.raidPoint + player.bonusPoint %></td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Finish Match Button (organiser only) ── -->
+    <% if (currentUser && match.winner === 'Panding' && currentUser._id.toString() === match.tournamentId.organiserId.toString()) { %>
+    <div class="text-center mt-2 mb-4" id="finishBtn">
+        <a class="btn btn-brand btn-lg px-5"
+           href="/result/<%= encodeURIComponent(match._id) %>/<%= encodeURIComponent(match.teamA.teamName) %>/<%= encodeURIComponent(match.teamB.teamName) %>/<%= encodeURIComponent(raidPointA + taklePointA + bonusPointA + match.allOutPointsA + match.extraPointsA) %>/<%= encodeURIComponent(raidPointB + taklePointB + bonusPointB + match.allOutPointsB + match.extraPointsB) %>">
+            <i class="bi bi-flag-fill me-2"></i>Finish Match
+        </a>
+    </div>
+    <% } %>
+
+    <!-- ── Match Finished Banner (hidden until socket fires) ── -->
+    <div id="finishedBanner" class="alert alert-success text-center fw-bold d-none" role="alert" style="font-size:1.1rem;">
+        <i class="bi bi-trophy-fill me-2"></i><span id="winnerText"></span>
+    </div>
+
+</div>
+
+<!-- ── Score flash animation ── -->
+<style>
+    @keyframes scoreFlash {
+        0%   { transform: scale(1);    color: inherit; }
+        30%  { transform: scale(1.35); color: #e63946; }
+        100% { transform: scale(1);    color: inherit; }
+    }
+    .score-flash { animation: scoreFlash 0.5s ease; }
+</style>
+
+<!-- ── Socket.IO client ── -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const MATCH_ID = '<%= match._id %>';
+    const socket   = io();
+
+    // Join this match's room so we receive updates
+    socket.emit('joinMatch', MATCH_ID);
+
+    // ── Helper: flash a cell when its value changes ──
+    function flashEl(el) {
+        el.classList.remove('score-flash');
+        void el.offsetWidth; // reflow to restart animation
+        el.classList.add('score-flash');
+        setTimeout(() => el.classList.remove('score-flash'), 500);
+    }
+
+    // ── Helper: set text and flash if changed ──
+    function updateCell(id, newVal) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.textContent.trim() !== String(newVal)) {
+            el.textContent = newVal;
+            flashEl(el);
+        }
+    }
+
+    // ── Update a player row in a table ──
+    function updatePlayerRow(tableId, playerId, raid, takle, bonus) {
+        const table = document.getElementById(tableId);
+        if (!table) return;
+        const row = table.querySelector(`tr[data-player-id="${playerId}"]`);
+        if (!row) return;
+
+        const raidCell  = row.querySelector('.cell-raid');
+        const takleCell = row.querySelector('.cell-takle');
+        const bonusCell = row.querySelector('.cell-bonus');
+        const totalCell = row.querySelector('.cell-total');
+
+        // Cells contain the number + possibly a button — update only the text node
+        function setFirstTextNode(cell, val) {
+            for (const node of cell.childNodes) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    if (node.textContent.trim() !== String(val)) {
+                        node.textContent = val + ' ';
+                        flashEl(cell);
+                    }
+                    return;
+                }
+            }
+            // No text node yet — prepend one
+            cell.insertBefore(document.createTextNode(val + ' '), cell.firstChild);
+        }
+
+        setFirstTextNode(raidCell,  raid);
+        setFirstTextNode(takleCell, takle);
+        setFirstTextNode(bonusCell, bonus);
+        if (totalCell.textContent.trim() !== String(raid + takle + bonus)) {
+            totalCell.textContent = raid + takle + bonus;
+            flashEl(totalCell);
+        }
+    }
+
+    // ── Receive live score update ──
+    socket.on('scoreUpdate', (data) => {
+        // Big scoreboard
+        updateCell('totalA', data.totalA);
+        updateCell('totalB', data.totalB);
+
+        // Stats table
+        updateCell('raidPointA',   data.raidPointA);
+        updateCell('taklePointA',  data.taklePointA);
+        updateCell('bonusPointA',  data.bonusPointA);
+        updateCell('raidPointB',   data.raidPointB);
+        updateCell('taklePointB',  data.taklePointB);
+        updateCell('bonusPointB',  data.bonusPointB);
+        updateCell('allOutPointsA', data.allOutPointsA);
+        updateCell('extraPointsA',  data.extraPointsA);
+        updateCell('allOutPointsB', data.allOutPointsB);
+        updateCell('extraPointsB',  data.extraPointsB);
+
+        // Player rows – Team A
+        data.teamAPlayer.forEach(p => {
+            updatePlayerRow('tableTeamA', p.id, p.raidPoint, p.taklePoint, p.bonusPoint);
+        });
+
+        // Player rows – Team B
+        data.teamBPlayer.forEach(p => {
+            updatePlayerRow('tableTeamB', p.id, p.raidPoint, p.taklePoint, p.bonusPoint);
+        });
+    });
+
+    // ── Match finished ──
+    socket.on('matchFinished', (data) => {
+        // Hide live badge, show finished state
+        const badge = document.getElementById('matchStatusBadge');
+        if (badge) {
+            badge.innerHTML = `<span class="badge bg-success rounded-pill px-3 py-2" style="font-size:.85rem;">
+                <i class="bi bi-trophy me-1"></i>Finished</span>
+                <div class="fw-bold mt-1" style="color:#a8dadc;font-size:.9rem;">${data.winner}</div>`;
+        }
+
+        // Show winner banner
+        const banner = document.getElementById('finishedBanner');
+        const winnerText = document.getElementById('winnerText');
+        if (banner && winnerText) {
+            winnerText.textContent = data.winner;
+            banner.classList.remove('d-none');
+        }
+
+        // Hide finish button for organiser
+        const finishBtn = document.getElementById('finishBtn');
+        if (finishBtn) finishBtn.style.display = 'none';
+
+        // Remove all +1 / +2 buttons
+        document.querySelectorAll('a[href*="/plus1/"]').forEach(btn => btn.remove());
+    });
+</script>

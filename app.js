@@ -92,6 +92,7 @@ main().catch(err => console.log(err));
 
 async function main() {
   await mongoose.connect(dbUrl);
+  //active when want to connect to local db
   // await mongoose.connect('mongodb://127.0.0.1:27017/Kabaddi');
 }
 
